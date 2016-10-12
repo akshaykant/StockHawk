@@ -1,44 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
+    android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/item_linear_layout"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    >
-  <TextView
-      android:id="@+id/stock_symbol"
-      style="@style/StockSymbolTextStyle"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:gravity="left|center_vertical"
-      tools:text="GOOG"
-      />
+    android:orientation="vertical">
+
   <LinearLayout
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:gravity="right"
-      >
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/list_item_stock_height"
+      android:gravity="center_vertical"
+      android:orientation="horizontal"
+      android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
+      android:paddingRight="@dimen/abc_list_item_padding_horizontal_material">
+
     <TextView
-        android:id="@+id/bid_price"
-        style="@style/BidPriceTextStyle"
+        android:id="@+id/stock_symbol"
+        style="@style/SymbolTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="10sp"
-        tools:text="1000.00"
-        />
-    <TextView
-        android:id="@+id/change"
-        android:background="@drawable/percent_change_pill"
-        style="@style/PercentChangeTextStyle"
-        android:layout_width="wrap_content"
+        android:gravity="start|center_vertical"
+        tool:text="GOOG"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        tools:text="100%"
-        />
+        android:layout_weight="1"
+        android:gravity="end">
+
+      <TextView
+          android:id="@+id/bid_price"
+          style="@style/BidPriceTextStyle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          tool:text="1000"
+          android:paddingEnd="@dimen/list_item_stock_price_horizontal_padding"
+          android:paddingLeft="@dimen/list_item_stock_price_horizontal_padding"
+          android:paddingRight="@dimen/list_item_stock_price_horizontal_padding"
+          android:paddingStart="@dimen/list_item_stock_price_horizontal_padding" />
+
+      <TextView
+          android:id="@+id/stock_change"
+          style="@style/ChangeTextStyle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          tool:text="10%"
+          android:background="@drawable/percent_change_pill"
+          android:paddingBottom="@dimen/list_item_stock_change_horizontal_padding"
+          android:paddingLeft="@dimen/list_item_stock_change_horizontal_padding"
+          android:paddingRight="@dimen/list_item_stock_change_horizontal_padding"
+          android:paddingTop="@dimen/list_item_stock_change_horizontal_padding" />
+    </LinearLayout>
   </LinearLayout>
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:alpha="0.5"
+      android:background="@android:color/darker_gray" />
+
 </LinearLayout>

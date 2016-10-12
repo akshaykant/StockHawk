@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sam_chordas.android.stockhawk" >
+    package="com.sam_chordas.android.stockhawk">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -10,38 +11,91 @@
         android:name="com.google.android.gcm.demo.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission
-        android:name="com.google.android.gcm.demo.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.gcm.demo.permission.C2D_MESSAGE" />
 
     <application
+        android:name=".AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:vmSafeMode="true">
 
         <!-- ACTIVITY : LAUNCHER ACTIVITY TO SHOW THE LIST OF STOCKS -->
         <activity
             android:name=".ui.MyStocksActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--  -->
 
-        <service android:name="com.sam_chordas.android.stockhawk.service.StockTaskService"
-            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE"
-            android:exported="true">
+        <!-- ACTIVITY : DETAIL ACTIVITY TO SHOW THE DETAIL OF THE STOCK -->
+        <activity
+            android:name=".ui.StockDetailActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".ui.MyStocksActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MyStocksActivity" />
+        </activity>
+        <!--  -->
+
+        <!--
+        To implement GCMTaskService to provide an endpoint for the GcmNetworkManager to call back
+        to when a task is ready to be executed. Clients must add this service to their manifest and
+        implement onRunTask(com.google.android.gms.gcm.TaskParams).
+        This service must provide an IntentFilter on the action SERVICE_ACTION_EXECUTE_TASK.
+        -->
+        <service
+            android:name=".service.StockTaskService"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
             <intent-filter>
-                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY"/>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
             </intent-filter>
         </service>
-        <service android:name="com.sam_chordas.android.stockhawk.service.StockIntentService" />
+
+        <service android:name=".service.StockIntentService" />
+        <!--  -->
+
+        <!-- Broadcast for invalid stock symbols! -->
+        <receiver android:name=".receiver.NoStockFoundBroadcast">
+            <intent-filter>
+                <action android:name="com.sam_chordas.android.stockhawk.ui.MyStocksActivity.STOCK_NOT_FOUND"></action>
+            </intent-filter>
+        </receiver>
+        <!--  -->
+
+        <!-- Content Provider -->
         <provider
+            android:name=".data.generated.QuoteProvider"
             android:authorities="com.sam_chordas.android.stockhawk.data.QuoteProvider"
-            android:name="com.sam_chordas.android.stockhawk.data.generated.QuoteProvider"
-            android:exported="false"/>
+            android:exported="true" />
+        <!--  -->
+
+        <!-- Application's widget! -->
+        <receiver android:name=".appwidget.StockWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.sam_chordas.android.stockhawk.widget.STOCK_APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/stock_widget_provider_info"/>
+        </receiver>
+
+        <service android:name=".appwidget.StockWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
     </application>
 
 </manifest>
