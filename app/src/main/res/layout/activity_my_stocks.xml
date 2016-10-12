@@ -35,6 +35,7 @@
                 android:layout_gravity="bottom|right"
                 android:layout_margin="16dp"
                 android:src="@drawable/ic_add_white_24dp"
+                android:contentDescription="@string/add_stock_quote"
                 fab:fab_colorNormal="@color/material_blue_500"
                 fab:fab_colorPressed="@color/material_blue_600"
                 fab:fab_colorRipple="@color/ripple"

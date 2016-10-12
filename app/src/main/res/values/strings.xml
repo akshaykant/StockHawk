@@ -42,4 +42,6 @@
 
     <string name="empty_view_text" translatable="true">Stocks Data not available!</string>
     <string name="listview_widget" translatable="true">Listview in widget.</string>
+
+    <string name="add_stock_quote" translatable="true">Add a new stock quote</string>
 </resources>
